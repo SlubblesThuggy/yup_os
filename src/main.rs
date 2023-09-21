@@ -8,21 +8,21 @@ fn panic(_info: &PanicInfo) -> ! {
     loop {}
 }
 
-mod vga_buffer;
-use vga_buffer::*;
+mod text_graphics;
+use text_graphics::*;
 
 #[no_mangle]
 pub extern "C" fn _start() -> ! {
-    /*
-    use core::fmt::Write;
-
-    WRITER.lock().write_string("How are you today?\n");
-    WRITER.lock().write_string("Grötig? That sounds awful...\n");
-    write!(WRITER.lock(), "Here, have some numbers: {} and {}\n", 69, 2.0/3.0).unwrap();
-    */
-
-    let mut writer = Writer::new(Color::Cyan, Color::Black);
-    writer.write_string("How are you today?\n");
+    let mut writer: VGABufferWriter = VGABufferWriter::new();
+    writer.set_color(Color::Cyan, Color::DarkGray);
+    writer.clear();
+    
+    let (cols, rows) = writer.get_dimensions();
+    for row in 0..rows {
+        for col in 0..cols {
+            writer.write_byte_at((col + row * cols) as u8, col, row);
+        }
+    }
 
     loop {}
 }
