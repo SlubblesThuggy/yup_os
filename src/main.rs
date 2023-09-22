@@ -13,8 +13,8 @@ use text_graphics::*;
 
 #[no_mangle]
 pub extern "C" fn _start() -> ! {
-    let mut writer: VGABufferWriter = VGABufferWriter::new();
-    writer.set_color(Color::Cyan, Color::DarkGray);
+    let mut writer: VGABufferWriter = VGABufferWriter::new(); 
+    writer.set_color(VGAColor::Cyan, VGAColor::DarkGray);
     writer.clear();
     
     let (cols, rows) = writer.get_dimensions();
